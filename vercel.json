@@ -1,6 +1,6 @@
 {
   "version": 2,
-  // ...removed builds property to let Vercel auto-detect Next.js
+  
   "routes": [
     { "src": "/(.*)", "dest": "/$1" }
   ]
