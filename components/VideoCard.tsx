@@ -11,6 +11,7 @@ dayjs.extend(realtiveTime)
 interface VideoCardProps {
     video: Video;
     onDownload: (url: string, title: string) => void;
+    onDelete?: (video: Video) => void;
 }
 
 const  VideoCard: React.FC<VideoCardProps> = ({video, onDownload}) => {
@@ -160,6 +161,13 @@ const  VideoCard: React.FC<VideoCardProps> = ({video, onDownload}) => {
                                 }
                             >
                                 <Download size={16} />
+                            </button>
+                            <button
+                                className="btn btn-error btn-sm"
+                                onClick={() => onDelete && onDelete(video)}
+                                aria-label="Delete video"
+                            >
+                                Delete
                             </button>
                         </div>
                     </div>
