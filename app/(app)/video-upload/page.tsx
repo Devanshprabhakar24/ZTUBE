@@ -73,7 +73,7 @@ function VideoUpload() {
             </div>
             <div>
               <label className="label">
-                <span className="label-text">Video File</span>
+                <span className="label-text">Video File(MAX-20mb)</span>
               </label>
               <input
                 type="file"
