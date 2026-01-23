@@ -2,7 +2,11 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 // DEBUG: Log middleware execution in deployment
-export const middleware = (auth, req) => {
+import type { NextRequest } from 'next/server';
+
+type AuthFunction = () => { userId?: string | null };
+
+export const middleware = (auth: AuthFunction, req: NextRequest) => {
     const { userId } = auth();
     const currentUrl = new URL(req.url);
     const isAccessingDashboard = currentUrl.pathname === "/home";
