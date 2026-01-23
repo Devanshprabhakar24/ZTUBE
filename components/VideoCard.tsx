@@ -14,7 +14,7 @@ interface VideoCardProps {
     onDelete?: (video: Video) => void;
 }
 
-const  VideoCard: React.FC<VideoCardProps> = ({video, onDownload}) => {
+const  VideoCard: React.FC<VideoCardProps> = ({video, onDownload, onDelete}) => {
     const [isHovered, setIsHovered] = useState(false)
     const [previewError, setPreviewError] = useState(false)
     const [showPlayer, setShowPlayer] = useState(false)
