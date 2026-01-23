@@ -50,6 +50,16 @@ function Home() {
     return <div className="text-center mt-10 text-red-500">{error}</div>;
   }
 
+  const handleDelete = useCallback(async (videoToDelete: Video) => {
+    if (!confirm(`Are you sure you want to delete "${videoToDelete.title}"?`)) return;
+    try {
+      await axios.delete("/api/videos", { data: { id: videoToDelete.id } });
+      setVideos((prev) => prev.filter((v) => v.id !== videoToDelete.id));
+    } catch (err) {
+      alert("Failed to delete video");
+    }
+  }, []);
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Videos</h1>
@@ -65,6 +75,7 @@ function Home() {
               key={video.id}
               video={video}
               onDownload={handleDownload}
+              onDelete={handleDelete}
             />
           ))}
         </div>
