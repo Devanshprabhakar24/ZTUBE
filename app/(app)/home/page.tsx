@@ -42,13 +42,6 @@ function Home() {
     document.body.removeChild(link);
   }, []);
 
-  if (loading) {
-    return <div className="text-center mt-10">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center mt-10 text-red-500">{error}</div>;
-  }
 
   const handleDelete = useCallback(async (videoToDelete: Video) => {
     if (!confirm(`Are you sure you want to delete "${videoToDelete.title}"?`)) return;
@@ -59,6 +52,14 @@ function Home() {
       alert("Failed to delete video");
     }
   }, []);
+
+  if (loading) {
+    return <div className="text-center mt-10">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center mt-10 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="container mx-auto p-4">
