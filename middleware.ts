@@ -3,10 +3,8 @@ import { NextResponse } from 'next/server';
 
 const isPublicRoute = createRouteMatcher([
     "/sign-in",
-    "/sign-up",
-    "/",
-    "/home"
-])
+    "/sign-up"
+]);
 const isPublicApiRoute = createRouteMatcher([
     "/api/videos"
 ])
@@ -18,12 +16,20 @@ export default clerkMiddleware((auth, req) => {
      const isAccessingDashboard = currentUrl.pathname === "/home"
      const isApiRequest = currentUrl.pathname.startsWith("/api")
 
-     // If user is logged in and accessing a public route but not the dashboard
+    // If user is logged in and tries to access '/', redirect to /home
+    if(userId && currentUrl.pathname === "/") {
+        return NextResponse.redirect(new URL("/home", req.url));
+    }
+    // If user is logged in and accessing a public route (not /home), redirect to /home
     if(userId && isPublicRoute(req) && !isAccessingDashboard) {
-        return NextResponse.redirect(new URL("/home", req.url))
+        return NextResponse.redirect(new URL("/home", req.url));
     }
     //not logged in
     if(!userId){
+        // If user is not logged in and trying to access the root page, redirect to sign-in
+        if(currentUrl.pathname === "/") {
+            return NextResponse.redirect(new URL("/sign-in", req.url));
+        }
         // If user is not logged in and trying to access a protected route
         if(!isPublicRoute(req) && !isPublicApiRoute(req) ){
             return NextResponse.redirect(new URL("/sign-in", req.url))
@@ -34,8 +40,7 @@ export default clerkMiddleware((auth, req) => {
             return NextResponse.redirect(new URL("/sign-in", req.url))
         }
     }
-    return NextResponse.next()
-
+    return NextResponse.next();
 })
 
 export const config = {
